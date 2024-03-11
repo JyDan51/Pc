@@ -1,0 +1,7 @@
+CREATE TABLE transactions (
+    id INTEGER PRIMARY KEY,
+    student_id INTEGER NOT NULL,
+    book_copy_id INTEGER NOT NULL,
+    loan_date TEXT NOT NULL,
+    return_date TEXT
+);

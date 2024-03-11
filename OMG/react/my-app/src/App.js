@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import SearchBar from './components/SearchBar';
+import SearchResult from './components/SearchResult';
 
-function App() {
+const MainComponent = () => {
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = (searchTerm) => {
+    // Perform search logic here, e.g., fetch data from an API
+    // For demonstration purposes, just setting some dummy results
+    const dummyResults = [
+      `Result 1 for ${searchTerm}`,
+      `Result 2 for ${searchTerm}`,
+      `Result 3 for ${searchTerm}`,
+    ];
+    setSearchResults(dummyResults);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <SearchBar onSearch={handleSearch} />
+      <SearchResult results={searchResults} />
     </div>
   );
-}
+};
 
-export default App;
+export default MainComponent;
