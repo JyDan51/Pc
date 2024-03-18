@@ -1,9 +1,8 @@
 import { Html5Qrcode } from "html5-qrcode";
 import { useState, useEffect, useRef } from "react";
 import { handleQRCodeScan } from "./helpers/QRCodeHandler";
-import './QrReader.css'; // Import CSS file for styling
 
-const QrReader = ({updateBooks}) => {
+const QRCodeScanner = ({updateBooks}) => {
   const html5QrCodeRef = useRef(null);
   const [isScannerRunning, setIsScannerRunning] = useState(false);
 
@@ -30,7 +29,7 @@ const QrReader = ({updateBooks}) => {
       handleQRCodeScan(decodedText, updateBooks);
     };
 
-    const config = { fps: 10, qrbox: { width: 250, height: 250 }, aspectRatio: 1 };
+    const config = { fps: 10, qrbox: { width: 300, height: 300 }, aspectRatio: 1.777778 };
 
     html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
       .then(() => {
@@ -49,23 +48,18 @@ const QrReader = ({updateBooks}) => {
   };
 
   return (
-    <div>
-      <div id="reader"></div>
-      <div className={`qr-container`}>
-      {!isScannerRunning && (
-          <button className="square-button" onClick={startScanner} >
-            Add More {/* Button text */}
-            <span className="plus-icon">&#43;</span> {/* Plus icon */}
+      <div>
+        <div id="reader"></div>
+        <form className="form" onSubmit={startScanner}>
+          <button type="submit" className="todo_button">
+            Scan QR code
           </button>
-      )}
-      {isScannerRunning && (
-        <button className="square-button" type="button" onClick={stopScanner} >
-            Cancel
-          </button>
-      )}
+        </form>
+        <button type="button" onClick={stopScanner} className="todo_button">
+          Cancel
+        </button>
       </div>
-    </div>
   );
 };
 
-export default QrReader;
+export default QRCodeScanner

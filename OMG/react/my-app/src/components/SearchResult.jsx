@@ -8,8 +8,8 @@ const SearchResult = ({ results }) => {
       <ul className="search-result-list">
         {results.map((result, index) => (
           <li key={index} className="search-result-item">
-            <img src={result.cover} alt={result.title} />
             <h3>{result.title}</h3>
+            {console.log ("title: ",result.title)}
             <p>{result.description}</p>
           </li>
         ))}
