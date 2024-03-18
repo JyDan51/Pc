@@ -1,27 +1,44 @@
-import React, { useState } from 'react';
-import SearchBar from './components/SearchBar';
-import SearchResult from './components/SearchResult';
 
-const MainComponent = () => {
-  const [searchResults, setSearchResults] = useState([]);
+import React, { useState, useEffect } from 'react';
+import './App.css';
+import StudentHomePage from './Pages/StudentHomePage';
+import Registration from './Pages/Registration'
+import { Protector } from "./components/helpers/Protector"
+import { Container } from "reactstrap";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import Logout from "../components/Logout";
+import Login from '../Pages/login-page';
+// import {ToastContainer} from 'react-toastify';
+const App = () => {
+  const [books, setBooks] = useState([]);
 
-  const handleSearch = (searchTerm) => {
-    // Perform search logic here, e.g., fetch data from an API
-    // For demonstration purposes, just setting some dummy results
-    const dummyResults = [
-      `Result 1 for ${searchTerm}`,
-      `Result 2 for ${searchTerm}`,
-      `Result 3 for ${searchTerm}`,
-    ];
-    setSearchResults(dummyResults);
-  };
+  useEffect(() => {
+    // Fetch book data from your API endpoint
+    fetch('your-api-endpoint')
+      .then(response => response.json())
+      .then(data => setBooks(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []); // Empty dependency array ensures the effect runs only once after the component mounts
+
 
   return (
-    <div>
-      <SearchBar onSearch={handleSearch} />
-      <SearchResult results={searchResults} />
+
+    <div className="app-container"> {/* Add a class for styling */}
+      {/* <StudentHomePage/> */}
+       {/* <Registration/> */}
+       <Container>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Protector Component={StudentHomePage} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/registration" element={<Registration />} />
+        </Routes>
+      </BrowserRouter>
+      {/* <ToastContainer /> */}
+    </Container>
     </div>
   );
 };
 
-export default MainComponent;
+export default App;

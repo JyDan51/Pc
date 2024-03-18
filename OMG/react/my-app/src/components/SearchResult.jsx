@@ -1,12 +1,17 @@
 import React from 'react';
+import './SearchResult.css';
 
 const SearchResult = ({ results }) => {
   return (
-    <div>
+    <div className="search-result-container">
       <h2>Search Results</h2>
-      <ul>
+      <ul className="search-result-list">
         {results.map((result, index) => (
-          <li key={index}>{result}</li>
+          <li key={index} className="search-result-item">
+            <img src={result.cover} alt={result.title} />
+            <h3>{result.title}</h3>
+            <p>{result.description}</p>
+          </li>
         ))}
       </ul>
     </div>

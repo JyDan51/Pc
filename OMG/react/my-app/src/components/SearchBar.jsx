@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './SearchBar.css';
 
 const SearchBar = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -7,21 +8,35 @@ const SearchBar = ({ onSearch }) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    onSearch(searchTerm);
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND}/api/books?search=${searchTerm}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log('Book data:', data); // Log the data to ensure it is received correctly
+      
+      onSearch(data); // Pass the data array to the parent component
+    } catch (error) {
+      console.error('Error fetching book data:', error);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={handleChange}
-      />
-      <button type="submit">Search</button>
-    </form>
+    <div className="search-bar-wrapper">
+      <form onSubmit={handleSubmit} className="search-bar-container">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={handleChange}
+          className="search-bar-input"
+        />
+        <button type="submit" className="search-bar-button">Search</button>
+      </form>
+    </div>
   );
 };
 
